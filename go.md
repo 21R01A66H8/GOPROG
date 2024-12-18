@@ -109,6 +109,53 @@ Enter the number of levels:
  1234321
 123454321
 ```
+
+# week 3 another package
+
+package main 
+import ( parent "family/father" child "family/father/son" 
+ 
+"fmt" 
+) 
+ func main() { f := new(parent.Father) 
+fmt.Println(f.Data("Mr. Jeremy Maclin")) 
+ c := new(child.Son) fmt.Println(c.Data("Riley Maclin")) 
+ 
+} package father import "fmt" 
+func init() { fmt.Println("Father package initialized") } 
+ type Father struct { Name string 
+} 
+ func (f Father) Data(name string) string { 
+f.Name = "Father : " + name return f.Name 
+ 
+} 
+ 
+ 
+ package son import "fmt" func init() { 
+fmt.Println("Son package initialized") 
+ 
+} 
+ type Son struct { 
+Name string 
+} 
+ func (s Son) Data(name string) string { 
+s.Name = "Son : " + name 
+return s.Name 
+ 
+}  
+
+#output
+
+
+Father package initialized 
+Son package initialized 
+Father : Mr. Jeremy Maclin 
+Son : Riley Maclin 
+
+
+
+
+
 # week 4 cal standard deviation in math pkg
 ```go
 package main
@@ -221,7 +268,8 @@ else
 fmt.Printf("%d is not a palindrome",)
 }
 }
-------------------------------------------------
+
+
 package main
 import(
 "fmt"
@@ -248,6 +296,62 @@ Enter any positive integer:24
 24 is not a palindrome
 Enter any positive integer:121
 121 is a palindrome
+
+
+## week-8  Write a GO Program to Build a Contact form 
+
+package main 
+import ( 
+"html/template" 
+"net/http" 
+) 
+ type ContactDetails struct { 
+Email string 
+Subject string 
+Message string 
+} 
+ func main() { tmpl := template.Must(template.ParseFiles("forms.html")) 
+ http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) 
+{ if r.Method != http.MethodPost { tmpl.Execute(w, nil) return 
+} 
+ details := ContactDetails{ 
+Email: r.FormValue("email"), 
+Subject: r.FormValue("subject"), 
+Message: r.FormValue("message"), } 
+ 
+// do something with details 
+_ = details 
+ tmpl.Execute(w, struct{ Success bool }{true}) }) 
+ http.ListenAndServe(":8080", nil) 
+} 
+<!-- forms.html --> 
+{{if .Success}} 
+<h1>Thanks for your message!</h1> 
+{{else}} 
+<h1>Contact</h1> 
+<form method="POST"> 
+<label>Email:</label><br /> 
+<input type="text" name="email"><br /> 
+<label>Subject:</label><br /> 
+<input type="text" name="subject"><br /> 
+ 
+ 
+ 
+<label>Message:</label><br /> 
+<textarea name="message"></textarea><br /> 
+<input type="submit"> 
+</form> 
+{{end}} 
+
+
+
+
+output
+
+
+
+------------------------------------------------
+
 ```
 # week 9 calculate average using arrays
 ```go
@@ -277,3 +381,80 @@ enter the numbers:6
 enter the numbers:4
 avg of 5 numbers (s) is 3
 ```
+
+
+## week-10 Write a GO Program to delete duplicate element in a given array 
+
+package main 
+import "fmt" 
+// function to remove duplicate values func removeDuplicates(s []string) []string { 
+ 	bucket := make(map[string]bool)  	var result []string  	for _, str := range s { 
+ if _, ok := bucket[str]; !ok {  bucket[str] = true 
+ 	result = append(result, str) 
+ 	} 
+ 	} 
+ 	return 
+ 	result 
+} 
+func main() { 
+ 
+// creating an array of strings 
+array := []string{"abc", "cde",  "efg",  "efg", "abc", "cde"} fmt.Println("The given array of string is:", array) fmt.Println() 
+ 
+// calling the function result := removeDuplicates(array) 
+fmt.Println("The array obtained after removing the duplicate entries 
+is:", result) 
+} 
+
+
+## OUTPUT : 
+ The given array of string is: [abc cde efg efg abc cde] 
+ 
+The array obtained after removing the duplicate entries is: [abc cde efg] 
+ 
+
+### EXPERIMENT-11 
+ 
+Write a GO Program with an example of Array reverse sort Functions for integers and strings. 
+package main 
+import ( 
+"fmt" 
+"sort" 
+) 
+func main() { 
+ fmt.Println("Interger Reverse Sort") num := []int{50,90, 30, 10, 50} sort.Sort(sort.Reverse(sort.IntSlice(num))) fmt.Println(num) 
+ fmt.Println() 
+ fmt.Println("String Reverse Sort") 
+text := []string{"Japan","UK","Germany","Australia","Pakistan"} sort.Sort(sort.Reverse(sort.StringSlice(text))) fmt.Println(text) 
+ 
+} 
+
+## Output : 
+ 
+Integer Reverse Sort 
+[90 50 50 30 10] 
+ 
+String Reverse Sort 
+[UK Pakistan Japan Germany Australia] 
+ 
+
+## week12 Write a program comprising of Contains , Contains Any , Count and Equal Fold String functions. 
+ 
+package main import ( 
+"fmt" 
+"strings" 
+) 
+ func main() { fmt.Println(strings.ContainsAny("Germany", "G")) fmt.Println(strings.ContainsAny("Germany", "g")) 
+ fmt.Println(strings.Contains("Germany", "Ger")) fmt.Println(strings.Contains("Germany", "ger")) fmt.Println(strings.Contains("Germany", "er")) 
+ fmt.Println(strings.Count("cheese", "e")) 
+ fmt.Println(strings.EqualFold("Cat", "cAt")) fmt.Println(strings.EqualFold("India", "Indiana")) 
+ 
+ 
+} 
+
+
+## Output: 	 
+ true false true false true 3 true 
+false 
+
+
